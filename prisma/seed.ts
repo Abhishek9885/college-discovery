@@ -1254,7 +1254,7 @@ async function main() {
         await tx.savedCollege.create({ data: { userId: adminUser.id, collegeId: college.id } })
         totalSavedColleges++
       }
-    })
+    }, { timeout: 30000 })
 
     console.log(`   ✅ [${i + 1}/${allCollegeData.length}] ${collegeData.name} — ${collegeData.courses.length} courses, ${collegeData.placements.length} placements, ${collegeData.reviews.length} reviews`)
   }

@@ -166,22 +166,22 @@ export default function HomePage() {
                 <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-5 p-4">
                   {/* Top Left (IIT Bombay) */}
                   <div className="relative rounded-2xl overflow-hidden transform -rotate-3 hover:rotate-0 transition-transform duration-500 z-10" style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.35)' }}>
-                    <img src={getProxyImageUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Main_building_in_IIT_Bombay.jpg/1024px-Main_building_in_IIT_Bombay.jpg')} alt="IIT Bombay" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1000" alt="Beautiful Campus" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.05))' }} />
                   </div>
                   {/* Top Right (IIT Delhi) */}
                   <div className="relative rounded-2xl overflow-hidden transform translate-y-8 rotate-3 hover:rotate-0 transition-transform duration-500 z-10" style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.35)' }}>
-                    <img src={getProxyImageUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/IIT_Delhi_Main_Building.jpg/1024px-IIT_Delhi_Main_Building.jpg')} alt="IIT Delhi" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1000" alt="University Students" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.05))' }} />
                   </div>
                   {/* Bottom Left (IIT Madras) */}
                   <div className="relative rounded-2xl overflow-hidden transform -translate-y-4 -rotate-3 hover:rotate-0 transition-transform duration-500 z-10" style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.35)' }}>
-                    <img src={getProxyImageUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Hostels_East_IIT_Madras_Jun23_A7C_05191.jpg/1024px-Hostels_East_IIT_Madras_Jun23_A7C_05191.jpg')} alt="IIT Madras" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&q=80&w=1000" alt="Modern Campus Building" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.05))' }} />
                   </div>
                   {/* Bottom Right (NIT Trichy) */}
                   <div className="relative rounded-2xl overflow-hidden transform translate-y-4 rotate-3 hover:rotate-0 transition-transform duration-500 z-10" style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.35)' }}>
-                    <img src={getProxyImageUrl('https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/National_Institute_of_Technology%2C_Trichy.jpg/1024px-National_Institute_of_Technology%2C_Trichy.jpg')} alt="NIT Trichy" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1000" alt="Library Campus" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4), rgba(0,0,0,0.05))' }} />
                   </div>
                 </div>
