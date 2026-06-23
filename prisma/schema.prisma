@@ -1,0 +1,169 @@
+// =============================================================================
+// College Discovery Platform - Prisma Schema
+// =============================================================================
+// This schema defines all database models for the College Discovery Platform,
+// including users, colleges, courses, placements, reviews, saved colleges,
+// and college predictor rules.
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// User Model
+// =============================================================================
+// Stores registered user accounts for the platform.
+// Users can save colleges, write reviews, and use the predictor tool.
+// =============================================================================
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  passwordHash  String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  savedColleges SavedCollege[]
+  reviews       Review[]
+}
+
+// =============================================================================
+// College Model
+// =============================================================================
+// Core model representing an Indian college/university.
+// Contains basic information, fee ranges, and relations to courses,
+// placements, reviews, and predictor rules.
+// =============================================================================
+model College {
+  id             String          @id @default(cuid())
+  name           String
+  slug           String          @unique
+  description    String          @db.Text
+  city           String
+  state          String
+  type           String          // IIT, NIT, IIIT, Private, State, Deemed
+  established    Int
+  rating         Float           @default(0)
+  imageUrl       String?
+  website        String?
+  minFees        Int             // Minimum fees in INR per year
+  maxFees        Int             // Maximum fees in INR per year
+  createdAt      DateTime        @default(now())
+  courses        Course[]
+  placements     Placement[]
+  reviews        Review[]
+  savedBy        SavedCollege[]
+  predictorRules PredictorRule[]
+
+  @@index([name])
+  @@index([state])
+  @@index([type])
+  @@index([minFees, maxFees])
+}
+
+// =============================================================================
+// Course Model
+// =============================================================================
+// Represents academic programs offered by a college.
+// Each course belongs to a single college and includes degree type,
+// duration, annual fees, and optional specialization info.
+// =============================================================================
+model Course {
+  id             String  @id @default(cuid())
+  collegeId      String
+  name           String
+  degree         String  // B.Tech, M.Tech, MBA, B.Sc, M.Sc, BBA, etc.
+  duration       String  // e.g. "4 years"
+  fees           Int     // Annual fees in INR
+  specialization String?
+  college        College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+}
+
+// =============================================================================
+// Placement Model
+// =============================================================================
+// Stores annual placement statistics for a college, including average,
+// highest, and median salary packages, placement rate, and top recruiters.
+// Each college can have one placement record per year.
+// =============================================================================
+model Placement {
+  id             String  @id @default(cuid())
+  collegeId      String
+  year           Int
+  avgPackage     Float   // Average package in LPA (Lakhs Per Annum)
+  highestPackage Float   // Highest package in LPA
+  medianPackage  Float   // Median package in LPA
+  placementRate  Float   // Placement rate as percentage (0-100)
+  topRecruiters  String  @db.Text // JSON array of recruiter names as string
+  college        College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@unique([collegeId, year])
+  @@index([collegeId])
+}
+
+// =============================================================================
+// Review Model
+// =============================================================================
+// User-submitted reviews for colleges. Each review has a 1-5 star rating,
+// a title, and a detailed comment. Reviews are linked to both a college
+// and the authoring user.
+// =============================================================================
+model Review {
+  id        String   @id @default(cuid())
+  collegeId String
+  userId    String
+  rating    Int      // 1-5 star rating
+  title     String
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
+  @@index([userId])
+}
+
+// =============================================================================
+// SavedCollege Model
+// =============================================================================
+// Junction table for the many-to-many relationship between users and
+// colleges they have bookmarked/saved for later reference.
+// =============================================================================
+model SavedCollege {
+  id        String   @id @default(cuid())
+  userId    String
+  collegeId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, collegeId])
+  @@index([userId])
+}
+
+// =============================================================================
+// PredictorRule Model
+// =============================================================================
+// Stores rank-based admission predictor rules for colleges.
+// Each rule maps an exam name and rank range (with category) to a college,
+// allowing users to predict their chances of admission.
+// =============================================================================
+model PredictorRule {
+  id        String  @id @default(cuid())
+  collegeId String
+  examName  String  // JEE_MAIN, JEE_ADVANCED, NEET, CAT, GATE
+  minRank   Int
+  maxRank   Int
+  category  String  @default("General")
+  college   College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([examName, category])
+  @@index([collegeId])
+}
